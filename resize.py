@@ -3,35 +3,34 @@ import os
 import cv2
 # import numpy as np
 
-def half_size(images):
+def resize(image):
     
-    for image in images:
-        height = image.shape[0]
-        width = image.shape[1]
-                
-        cv2.imshow("full_size",image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows() 
-        
-        half_image = cv2.resize(image,(int(width/2),int(height/2)))
+    height = image.shape[0]
+    width = image.shape[1]
+            
+    # cv2.imshow("full_size",image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows() 
+    
+    resize_image = cv2.resize(image,(256,256))
 
-        cv2.imshow("half_size",half_image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()  
+    # cv2.imshow("half_size",resize_image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()  
+    
+    return resize_image
+    
 
 if __name__ == '__main__':
     
-    paths = os.listdir('.\image')
+    paths = os.listdir('./image')
     print(paths)
-    print(len(paths))
 
     images = []
     for path in paths:
-        images.append(cv2.imread(path))
+        images.append(cv2.imread('./image/' + path))
 
-    if not (images[-1].all() == None):
-        half_size(images)
-    else:
-        print('Not exist')
-        exit()
+    for (image, path) in zip(images, paths):
+        cv2.imwrite('./output/' + path, resize(image))
+
         
