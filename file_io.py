@@ -10,7 +10,7 @@ def read_file(path='./', fileName=''):
             file_list += row.strip()
     return file_list
 
-#write file get rows_list
+#write file from rows_list
 def write_file(path='./', fileName='', row_list=[]):
     with open(path + fileName,'w') as f:
         for row in row_list:
