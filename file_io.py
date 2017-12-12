@@ -7,7 +7,7 @@ def read_file(path='./', fileName=''):
     with open(path + fileName,'r') as f:
         for row in f:
             # print(row.strip())
-            file_list += row.strip()
+            file_list += [row.strip()]
     return file_list
 
 #write file from rows_list
