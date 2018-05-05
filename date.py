@@ -19,3 +19,5 @@ if __name__ == '__main__':
     tomorrow = add_days(today, 1)
     tomorrow_str = date_format(tomorrow)
     print(tomorrow_str)
+
+    print(datetime.datetime.now().strftime("%Y/%m/%d %H:%M:%S"))
