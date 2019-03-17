@@ -6,7 +6,15 @@ import re               # 正規表現
 import shutil           # ファイル操作
 from PIL import Image   # 画像ファイル変換(pip:pillow,libtiff)
 
-# 指定パスの画像を通番を付けてコピーリネームpng->jpg
+# 指定パスの画像をフォーマット変換png -> jpg
+def cnvert_png_jpg(old_path, out_file_path):
+    input_im = Image.open(old_path)
+    rgb_im = input_im.convert('RGB')
+    new_file = out_file_path + os.sep + ("image%06d.jpg" % (num))
+    print("png->jpg:" + new_file)
+    rgb_im.save(new_file ,quality=30)
+
+# 指定パスの画像を通番を付けてコピーリネーム
 def rename(file, out_file_path, num):
     # 正規表現検索
     png = re.compile("png") 
@@ -17,11 +25,7 @@ def rename(file, out_file_path, num):
         shutil.copy2(file, old_path)
 
         # png -> jpg
-        input_im = Image.open(old_path)
-        rgb_im = input_im.convert('RGB')
-        new_file = out_file_path + os.sep + ("image%06d.jpg" % (num))
-        print("png->jpg:" + new_file)
-        rgb_im.save(new_file ,quality=30)
+        cnvert_png_jpg(old_path, out_file_path)
 
         # del
         os.remove(old_path)
