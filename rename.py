@@ -8,7 +8,7 @@ import shutil           # for hadling file system
 from PIL import Image   # for converting image files(pip:pillow,libtiff)
 
 # convert image file(png -> jpg)
-def cnvert_png_jpg(old_path, out_file_path):
+def convert_png_jpg(old_path, out_file_path):
     input_im = Image.open(old_path)
     rgb_im = input_im.convert('RGB')
     new_file = out_file_path + os.sep + ("image%06d.jpg" % (num))
@@ -26,7 +26,7 @@ def rename(file, out_file_path, num):
         shutil.copy2(file, old_path)
 
         # png -> jpg
-        cnvert_png_jpg(old_path, out_file_path)
+        convert_png_jpg(old_path, out_file_path)
 
         # del
         os.remove(old_path)
