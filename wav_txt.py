@@ -1,5 +1,3 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
 import wave
 import pyaudio
 import time
@@ -8,30 +6,30 @@ from datetime import datetime
 import file_io
 
 def play_wav(wavfile):
-    # WAVファイルを開く
+    # open wav file
     wr = wave.open(wavfile, "rb")
 
-    # PyAudioのインスタンスを生成
+    # get instance of PyAudio
     p = pyaudio.PyAudio()
 
-    # 再生用のコールバック関数を定義
+    # definition the callback function for playing
     def callback(in_data, frame_count, time_info, status):
         data = wr.readframes(frame_count)
         return (data, pyaudio.paContinue)
 
-    # Streamを生成
+    # create stream
     stream = p.open(format=p.get_format_from_width(wr.getsampwidth()),
                     channels=wr.getnchannels(),
                     rate=wr.getframerate(),
                     output=True,
                     stream_callback=callback)
 
-    # Streamをつかって再生開始
+    # start with stream
     stream.start_stream()
     base_time = datetime.now()
 
-    #ファイルの読み取り
-    ## ファイル形式
+    # read file 
+    ## file format
     # 00:00,xxxxx
     def str2sec(time_str):
         return int(time_str[0:2]) * 60 + int(time_str[3:5])
@@ -43,7 +41,7 @@ def play_wav(wavfile):
         tmp_list += [[str2sec(time_temp), str_temp]]
     time_list = tmp_list
 
-    # 再生中はひとまず待っておきます
+    # wait while playing
     count = 0
     while stream.is_active():
         now_time = datetime.now() - base_time
@@ -53,7 +51,7 @@ def play_wav(wavfile):
 
         time.sleep(0.1)
 
-    # 再生が終わると、ストリームを停止・解放
+    # when finished playing, stop stream and release
     stream.stop_stream()
     stream.close()
     wr.close()

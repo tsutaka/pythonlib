@@ -5,7 +5,7 @@ import zipfile
 
 
 def unZip(target_file_name='', output_path=''):
-    #解凍
+    #unzip
     with zipfile.ZipFile(target_file_name,'r') as inputFile:
         inputFile.extractall(output_path)
     print("unzip")

@@ -11,11 +11,11 @@ s3 = boto3.resource('s3')
 s3client = boto3.client('s3')
 
 def get_file_from_s3(bucket_name='', path='', fileName=''):
-    #バケットオープン
+    #open bucket
     bucket = s3.Bucket(bucket_name)
     print("open")
 
-    #ダウンロード
+    #download
     bucket.download_file(Key=path, Filename=fileName)
     print("download")
 

@@ -1,12 +1,13 @@
 # rename.py
-# 指定入力フォルダ配下のpngをリネームし、jpgに変換して指定出力フォルダに出力
-import sys              # コマンドライン引数
-import os               # ファイルシステム
-import re               # 正規表現
-import shutil           # ファイル操作
-from PIL import Image   # 画像ファイル変換(pip:pillow,libtiff)
+# files under the specified directory rename and convert from png to jpg
 
-# 指定パスの画像をフォーマット変換png -> jpg
+import sys              # for command line arguments
+import os               # for command executing
+import re               # for using regular expression
+import shutil           # for hadling file system
+from PIL import Image   # for converting image files(pip:pillow,libtiff)
+
+# convert image file(png -> jpg)
 def cnvert_png_jpg(old_path, out_file_path):
     input_im = Image.open(old_path)
     rgb_im = input_im.convert('RGB')
@@ -14,9 +15,9 @@ def cnvert_png_jpg(old_path, out_file_path):
     print("png->jpg:" + new_file)
     rgb_im.save(new_file ,quality=30)
 
-# 指定パスの画像を通番を付けてコピーリネーム
+# image copy and rename with serial number 
 def rename(file, out_file_path, num):
-    # 正規表現検索
+    # search with regular expression
     png = re.compile("png") 
     if png.search(file):
         # copy + rename
@@ -35,10 +36,10 @@ def rename(file, out_file_path, num):
     else:
         pass
     
-    # 次の通番を返却
+    # return next number 
     return num
 
-# フォルダ内を再帰処理
+# recursive processing in specified directory
 def recursive_file_check(in_dir_path, out_dir_path, num):
     if os.path.exists(in_dir_path) != True:
         print("not exists:" + in_dir_path)

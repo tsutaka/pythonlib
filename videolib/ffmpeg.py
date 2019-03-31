@@ -1,6 +1,6 @@
 # ffmpeg.py
-import sys          # command line arguments
-import subprocess   # command execute
+import sys          # for command line arguments
+import subprocess   # for command executing
 
 # before use, requires install ffmpeg and add path
 
