@@ -102,4 +102,7 @@ ENV/
 
 *.ini
 *.txt
+*.jpg
+*.mp4
 sample/*
+videolib/sample/*
