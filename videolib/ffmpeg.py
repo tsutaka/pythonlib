@@ -1,9 +1,8 @@
 # ffmpeg.py
-# ffmpegを使用して映像から画像を切り出す
-import sys          # コマンドライン引数
-import subprocess   # コマンド実行
+import sys          # command line arguments
+import subprocess   # command execute
 
-# ffmpegをインストールしパスを通す必要がある
+# before use, requires install ffmpeg and add path
 
 def movie_to_images(input_path, start_seconds, end_seconds, interval):
 
