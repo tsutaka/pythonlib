@@ -18,12 +18,12 @@ if __name__ == "__main__":
     # execute only if run as a script
     # ex. python ffmpeg.py test.mp4 0 10 1
     args = sys.argv
+    if(len(args) != 5) :
+        print("args not have 4 arg")
     input_path = args[1]
     start_seconds = args[2]
     end_seconds = args[3]
     interval = args[4]
-    if(len(args) != 5) :
-        print("args not have 4 arg")
 
     print("input_path:", input_path)
     print("start_seconds:", start_seconds)
