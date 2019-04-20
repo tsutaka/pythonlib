@@ -29,6 +29,21 @@ def check_diff(input_path1, input_path2, output_path):
 
     return
 
+def threshold(input_path, output_path, threshold):
+
+    img = cv2.imread(input_path,0)
+    img = cv2.medianBlur(img,5)
+
+    ret,th1 = cv2.threshold(img,threshold,255,cv2.THRESH_BINARY)
+    # th2 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_MEAN_C,\
+    #             cv2.THRESH_BINARY,11,2)
+    # th3 = cv2.adaptiveThreshold(img,255,cv2.ADAPTIVE_THRESH_GAUSSIAN_C,\
+    #             cv2.THRESH_BINARY,11,2)
+    
+    # save image
+    # cv2.imwrite(output_path,th1)
+    cv2.imshow("test", th1)
+    cv2.waitKey(0)
 
 if __name__ == "__main__":
     # execute only if run as a script
@@ -45,4 +60,6 @@ if __name__ == "__main__":
     print("input_path2:", input_path2)
     print("output_path:", output_path)
     
-    check_diff(input_path1, input_path2, output_path)
+    # check_diff(input_path1, input_path2, output_path)
+
+    threshold(input_path1, output_path, 127)
