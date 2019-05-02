@@ -106,3 +106,4 @@ ENV/
 *.mp4
 sample/*
 videolib/sample/*
+videocontroller/assets/*
