@@ -12,6 +12,14 @@ def movie_to_images(input_path, start_seconds, end_seconds, interval):
     subprocess.call(cmd)
 
     return
+    
+def movie_full_to_images(input_path, interval):
+
+    #ex. ffmpeg -i sample_movie.mp4 -ss 0 -r 1 -q:v 1 %06d.jpg
+    cmd = "ffmpeg -i " + input_path + " -ss 0 -r " + interval + " -q:v 1 %06d.jpg"
+    subprocess.call(cmd)
+
+    return
 
 
 if __name__ == "__main__":
