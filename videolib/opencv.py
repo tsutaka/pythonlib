@@ -12,13 +12,13 @@ import cv2          # for using Opencv
 from PIL import Image # for using PIL format
 
 
-def check_diff(input_path1, input_path2, output_path):
+def check_diff(input_path1, input_path2):
     """
     return num of diff pixel
     """
     # load images
-    img_src1 = cv2.imread(input_path1, 1)
-    img_src2 = cv2.imread(input_path2, 1)
+    img_src1 = cv2.imread(str(input_path1), 1)
+    img_src2 = cv2.imread(str(input_path2), 1)
 
     # check diff
     fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()
@@ -27,8 +27,7 @@ def check_diff(input_path1, input_path2, output_path):
     diff_image = fgbg.apply(img_src2)
 
     # save image
-    # bg_diff_path = output_path
-    # cv2.imwrite(bg_diff_path, diff_image)
+    # cv2.imwrite('test.jpg',th1)
 
     # show image
     # cv2.imshow('frame',diff_image)
@@ -40,7 +39,7 @@ def check_diff(input_path1, input_path2, output_path):
     image_pil = Image.fromarray(diff_image)
     image_pil = image_pil.convert('RGB')
     image_size = image_pil.size
-    print(image_size)
+    
     for index_y in range(int(image_size[1])):
         for index_x in range(int(image_size[0])):
             red, green, blue = image_pil.getpixel((index_x, index_y))
@@ -57,15 +56,15 @@ def binarization(input_path, output_path, threshold):
     img = cv2.medianBlur(img, 5)
 
     ret, th1 = cv2.threshold(img, threshold, 255, cv2.THRESH_BINARY)
-    print(ret)
+    # print(ret)
 
     # save image
-    # cv2.imwrite(output_path,th1)
+    cv2.imwrite(output_path,th1)
 
     # show image
-    cv2.imshow("mono", th1)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    # cv2.imshow("mono", th1)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
 
 if __name__ == "__main__":
     # execute only if run as a script
@@ -82,6 +81,6 @@ if __name__ == "__main__":
     print("in2:", in2)
     print("out:", out)
 
-    check_diff(in1, in2, out)
+    check_diff(in1, in2)
 
     # binarization(in1, out, 127)
