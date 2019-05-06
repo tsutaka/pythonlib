@@ -16,6 +16,8 @@ def check_diff(input_path1, input_path2):
     """
     return num of diff pixel
     """
+    INTERVAL = 10
+
     # load images
     img_src1 = cv2.imread(str(input_path1), 1)
     img_src2 = cv2.imread(str(input_path2), 1)
@@ -41,12 +43,18 @@ def check_diff(input_path1, input_path2):
     image_size = image_pil.size
     
     for index_y in range(int(image_size[1])):
+        if(index_y % INTERVAL != 0):
+            continue
+
         for index_x in range(int(image_size[0])):
+            if(index_x % INTERVAL != 0):
+                continue
+
             red, green, blue = image_pil.getpixel((index_x, index_y))
             if(blue == 255 and green == 255 and red == 255):
                 diff_pixels += 1
 
-    return diff_pixels, int(image_size[0]) * int(image_size[1])
+    return diff_pixels, int(int(image_size[0]) * int(image_size[1]) / (INTERVAL * INTERVAL))
 
 def binarization(input_path, output_path, threshold):
     """

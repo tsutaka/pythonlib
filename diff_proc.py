@@ -13,7 +13,6 @@ def diff_proc(target_path):
     """
     make diff.json 
     """
-    output_json = {}
     prev_file_name = ""
 
     jpeg_list = []
@@ -27,6 +26,7 @@ def diff_proc(target_path):
             prev_file_name = file_name
             continue
 
+        output_json = {}
         diff_frame, full_frame = check_diff(
             target_path + os.sep + prev_file_name,
             target_path + os.sep + file_name)
@@ -38,11 +38,10 @@ def diff_proc(target_path):
 
         prev_file_name = file_name
 
-    # print("{}".format(json.dumps(output_json, indent=4)))
-    output_fp = open(
-        target_path + os.sep +
-        'diff.json', 'w')
-    json.dump(output_json, output_fp, indent=4)
+        output_fp = open(
+            target_path + os.sep +
+            'diff' + file_name[:-3] + 'json', 'w')
+        json.dump(output_json, output_fp, indent=4)
 
 if __name__ == "__main__":
     # execute only if run as a script
@@ -52,6 +51,6 @@ if __name__ == "__main__":
         exit()
     path = args[1]
 
-    print("path:", path)
+    print("diff_chk_path:", path)
 
     diff_proc(path)

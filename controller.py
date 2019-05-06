@@ -15,6 +15,7 @@ from videolib.ffmpeg import get_movie_duration
 
 COLOR_GREEN = 3
 COLOR_LIGHTGREEN = 11
+COLOR_ORANGE = 9
 
 class VideoCtrl:
     """
@@ -166,26 +167,35 @@ class VideoCtrl:
                 COLOR_GREEN)
 
         # draw diff
-        try:
-            fp_input = open(
-                VideoCtrl.VIDEO_PATH + os.sep +
-                self.target_path + os.sep + 
-                'diff.json', 'r')
-            input_json = json.load(fp_input)
-            for jpeg_file in jpeg_list:
-                if jpeg_file in input_json.keys():
-                    diff_percent = input_json[jpeg_file]['diff'] / input_json[jpeg_file]['full']
-                else:
-                    diff_percent = 0
-                file_index = int(jpeg_file[:6]) - 1
-                pyxel.rect(
-                    (VideoCtrl.SCREEN_WIDTH - 1) * file_index / line_max, 
-                    VideoCtrl.VIDEO_DETAIL_OFFSET_Y + (5 * 2 - 1) * (1 - diff_percent), 
-                    (VideoCtrl.SCREEN_WIDTH - 1) * (file_index + 1) / line_max - 1, 
-                    VideoCtrl.VIDEO_DETAIL_OFFSET_Y + 5 * 2 - 1, 
-                    COLOR_LIGHTGREEN)
-        except IOError:
-            pass
+        for jpeg_file in jpeg_list:
+            diff_file = 'diff' + jpeg_file[:-3] + 'json'
+            if os.path.exists(VideoCtrl.VIDEO_PATH + os.sep +
+                        self.target_path + os.sep + 
+                        diff_file):
+                try:
+                    fp_input = open(
+                        VideoCtrl.VIDEO_PATH + os.sep +
+                        self.target_path + os.sep + 
+                        diff_file, 'r')
+                    input_json = json.load(fp_input)
+                        
+                    if jpeg_file in input_json.keys():
+                        diff_percent = input_json[jpeg_file]['diff'] * 2 / input_json[jpeg_file]['full'] # *2!
+                    else:
+                        diff_percent = 0
+                    file_index = int(jpeg_file[:6]) - 1
+                    pyxel.rect(
+                        (VideoCtrl.SCREEN_WIDTH - 1) * file_index / line_max,
+                        VideoCtrl.VIDEO_DETAIL_OFFSET_Y + (5 * 2 - 1) * (1 - (diff_percent if diff_percent < 1 else 1)), 
+                        (VideoCtrl.SCREEN_WIDTH - 1) * (file_index + 1) / line_max - 1, 
+                        VideoCtrl.VIDEO_DETAIL_OFFSET_Y + 5 * 2 - 1, 
+                        COLOR_LIGHTGREEN if diff_percent < 0.5 else COLOR_ORANGE)
+
+                except json.decoder.JSONDecodeError:
+                    pass
+
+                except IOError:
+                    pass
 
         # draw video detail
         disp = []
@@ -204,9 +214,9 @@ class VideoCtrl:
 
         disp += [
             "diff(" +
-            str(len(self.get_file(self.target_path, r'^diff(\d){6}\.jpg$'))) + # diffnnnnnn.jpg         
+            str(len(self.get_file(self.target_path, r'^diff(\d){6}\.json$'))) + # diffnnnnnn.jpg         
             ")<d>:" +
-            ("ok" if(self.check_file(self.target_path, r'^diff(\d){6}\.jpg$')) else "no")
+            ("ok" if(self.check_file(self.target_path, r'^diff(\d){6}\.json$')) else "no")
             ]
 
         disp += ["incnt:" + str(self.input_wait_counter)]
