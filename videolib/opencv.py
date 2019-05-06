@@ -41,7 +41,7 @@ def check_diff(input_path1, input_path2):
     image_pil = Image.fromarray(diff_image)
     image_pil = image_pil.convert('RGB')
     image_size = image_pil.size
-    
+
     for index_y in range(int(image_size[1])):
         if(index_y % INTERVAL != 0):
             continue
