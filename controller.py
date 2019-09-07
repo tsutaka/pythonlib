@@ -95,7 +95,9 @@ class VideoCtrl:
             input_file = self.target_path + ".mp4"
             if os.path.exists(video_path):
                 self.processing_file = self.target_path
+                print("test1:" + video_path + "," + input_file)
                 self.duration = get_movie_duration(video_path, input_file)
+                print("test2:" + str(self.duration))
                 movie_full_to_images(video_path, input_file, 1)
 
         # diff video
